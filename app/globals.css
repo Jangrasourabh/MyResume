@@ -1,0 +1,29 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+@layer base {
+    html {
+        scroll-behavior: smooth;
+        scroll-padding-top: 40px;
+    }
+
+    p {
+        @apply my-3;
+    }
+
+    .rough-annotation {
+        z-index: -1;
+    }
+}
+
+@layer utilities {
+      .no-scrollbar::-webkit-scrollbar {
+          display: none;
+      }
+      .no-scrollbar {
+          -ms-overflow-style: none;  
+          scrollbar-width: none;  
+    }
+  }
