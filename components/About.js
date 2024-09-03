@@ -1,13 +1,10 @@
 import cx from "clsx";
-import Image from "next/image";
 import React from "react";
 import { RoughNotation, RoughNotationGroup } from "react-rough-notation";
 import { useTimeout } from "react-use";
 import { FOCUS_VISIBLE_OUTLINE } from "../components/constants";
 import { RainbowHighlight } from "../components/RainbowHighlight";
-import { getLightColor } from "../components/useColorSeed";
 import { useIsFontReady } from "../components/useIsFontReady";
-import { HighlightOnHover } from "../components/HighlightOnHover";
 import CodeMirrorComponent from "./CodeMirrorComponent";
 
 const About = ({ seed }) => {
@@ -32,7 +29,7 @@ const About = ({ seed }) => {
   return (
     <div className="container px-4 mx-auto">
       <div className="lg:flex lg:flex-wrap lg:-mx-4">
-        <div className="flex lg:flex-row">
+        <div className="flex lg:flex-row items-center">
           <div className="lg:w-2/3 lg:px-4">
             <h1 className="text-2xl font-bold text-gray-900 lg:text-4xl">
               Hello! I&apos;m Sourabh, a developer based in India

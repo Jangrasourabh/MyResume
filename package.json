@@ -1,8 +1,9 @@
 {
-  "name": "mukul-website",
+  "name": "sourabh-website",
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "start-dev": "node server.js",
     "dev": "nodemon server.js",
     "build": "NODE_ENV=production next build",
     "start": "next start",

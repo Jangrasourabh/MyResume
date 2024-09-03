@@ -1,58 +1,110 @@
-'use client';
+"use client";
 
-import React, { useState } from 'react';
-import CodeMirror from '@uiw/react-codemirror';
-import { javascript } from '@codemirror/lang-javascript';
-import { oneDark } from '@codemirror/theme-one-dark';
+import React, { useEffect, useState } from "react";
+import CodeMirror from "@uiw/react-codemirror";
+import { javascript } from "@codemirror/lang-javascript";
+import { oneDark } from "@codemirror/theme-one-dark";
 
 const CodeMirrorComponent = () => {
-  const [code, setCode] = useState('// Write your code here');
-  const [output, setOutput] = useState('');
+  const [loading, setLoading] = useState(true);
+  const [code, setCode] = useState(`// Write your JS code here
+function Sourabh () {
+  console.log("Hello! I'm Sourabh Kumar")
+}
+
+Sourabh()`);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  const [output, setOutput] = useState("");
 
   const executeCode = () => {
-    let capturedOutput = '';
+    let capturedOutput = "";
 
-    // Override console.log to capture the output
     const originalConsoleLog = console.log;
     console.log = (...args) => {
-      capturedOutput += args.join(' ') + '\n';
+      capturedOutput += args.join(" ") + "\n";
       originalConsoleLog(...args);
     };
 
     try {
-      // Execute the code using eval
       eval(code);
     } catch (error) {
-      capturedOutput += error.toString() + '\n';
+      capturedOutput += error.toString() + "\n";
     } finally {
-      // Restore the original console.log
       console.log = originalConsoleLog;
     }
 
-    // Delay setting the output to allow async code to complete
     setTimeout(() => {
       setOutput(capturedOutput);
-    }, 500); // Adjust the delay as needed
+    }, 500);
   };
 
+  useEffect(() => {
+    executeCode();
+  }, []);
+
   return (
-    <div style={{ padding: '20px' }}>
-      <h1>JavaScript Code Execution</h1>
-      <CodeMirror
-        value={code}
-        height="200px"
-        extensions={[javascript()]}
-        onChange={(value) => setCode(value)}
-        theme={oneDark}
-      />
-      <button onClick={executeCode} style={{ marginTop: '10px', padding: '5px 10px' }}>
-        Run Code
-      </button>
-      <div style={{ marginTop: '20px', color: '#fff', background: '#333', padding: '10px' }}>
-        <h3>Output:</h3>
-        <pre>{output}</pre>
+    <>
+      <style>{`.my-code-mirror-wrapper .cm-editor {
+    border-radius: 10px 10px  0 0;
+    overflow: hidden;
+}`}</style>
+      <div className="ml-5 lg:w-1/3 my-code-mirror-wrapper">
+        {!loading ? (
+          <>
+            <div className="relative">
+              <CodeMirror
+                value={code}
+                height="180px"
+                width="100%"
+                style={{ borderRadius: "5px" }}
+                extensions={[javascript()]}
+                onChange={(value) => setCode(value)}
+                theme={oneDark}
+              />
+              <button
+                className="absolute top-2 right-2 text-emerald-500 flex items-center gap-1 text-sm"
+                onClick={executeCode}
+              >
+                <svg
+                  stroke="currentColor"
+                  fill="currentColor"
+                  stroke-width="0"
+                  viewBox="0 0 448 512"
+                  height="1em"
+                  width="1em"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path d="M424.4 214.7L72.4 6.6C43.8-10.3 0 6.1 0 47.9V464c0 37.5 40.7 60.1 72.4 41.3l352-208c31.4-18.5 31.5-64.1 0-82.6z"></path>
+                </svg>
+                Run Code
+              </button>
+            </div>
+            <div
+              style={{
+                minHeight: "180px",
+                color: "#fff",
+                background: "#333",
+                padding: "10px",
+                borderRadius: "0 0 10px 10px",
+              }}
+            >
+              <h3 className="font-bold">Output:</h3>
+              <pre>{output}</pre>
+            </div>
+          </>
+        ) : (
+          <div className="w-full flex items-center justify-center"><div class="lds-spinner"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div>
+        )}
       </div>
-    </div>
+    </>
   );
 };
 
