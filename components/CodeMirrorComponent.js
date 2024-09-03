@@ -8,11 +8,11 @@ import { oneDark } from "@codemirror/theme-one-dark";
 const CodeMirrorComponent = () => {
   const [loading, setLoading] = useState(true);
   const [code, setCode] = useState(`// Write your JS code here
-function Sourabh () {
+function myFunc () {
   console.log("Hello! I'm Sourabh Kumar")
 }
 
-Sourabh()`);
+myFunc()`);
 
   useEffect(() => {
     const timer = setTimeout(() => {
